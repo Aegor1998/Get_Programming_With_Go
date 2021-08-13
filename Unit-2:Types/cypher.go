@@ -1,9 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-	const KEYWORD string = "GOGLANG"
+	const KEYWORD string = "GOLANG"
 	var (
 		plainText   string
 		encodedText string
@@ -12,7 +15,7 @@ func main() {
 	plainText = getPlainText()
 
 	for i := 0; i < len(plainText); i++ {
-		if cypherKey > len(KEYWORD) {
+		if cypherKey == len(KEYWORD) {
 			cypherKey = 0
 		}
 		encodedText += letterEncoder(rune(plainText[i]), rune(KEYWORD[cypherKey]))
@@ -30,9 +33,10 @@ func letterEncoder(cipherLetter rune, keyLetter rune) (letter string) {
 		'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23,
 		'Y': 24, 'Z': 25,
 	}
+	fmt.Printf("cipherletter: %s, keyletter: %s\n", string(cipherLetter), string(keyLetter))
 	letterValue := mapkey[cipherLetter] + mapkey[keyLetter]
-	if letterValue > 0 {
-		letterValue += 26
+	if letterValue > 25 {
+		letterValue -= 25
 	}
 	for keys, value := range mapkey {
 		if value == letterValue {
@@ -43,7 +47,8 @@ func letterEncoder(cipherLetter rune, keyLetter rune) (letter string) {
 }
 
 func getPlainText() (plainText string) {
-	fmt.Println("Please enter the text to be encoded")
+	fmt.Println("Do not put in spaces or symbols.")
+	fmt.Println("Please enter the text to be encoded: ")
 	fmt.Scanln(&plainText)
-	return plainText
+	return strings.ToUpper(plainText) //Encoder currently only takes Cap Letters
 }

@@ -5,17 +5,14 @@ import "fmt"
 func main() {
 	const (
 		KEYWORD    string = "GOLANG"
-		CYPHERTEXT string = "CSOITEUIWUIZNSROCNKFD"
+		CYPHERTEXT string = "MDWABM"
 	)
 	var (
 		decodedText string
 		cypherKey   = 0
 	)
 
-	fmt.Println("Program Start")
-
 	for i := 0; i < len(CYPHERTEXT); i++ {
-		fmt.Println("Loop # ", i)
 		if cypherKey == len(KEYWORD) {
 			cypherKey = 0
 		}
@@ -36,7 +33,7 @@ func letterDecoder(cipherLetter rune, keyLetter rune) (letter string) {
 	}
 	letterValue := mapkey[cipherLetter] - mapkey[keyLetter]
 	if letterValue < 0 {
-		letterValue += 26
+		letterValue += 25
 	}
 	for keys, value := range mapkey {
 		if value == letterValue {
