@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strings"
 )
 
@@ -46,7 +47,11 @@ func fillNameConvertFromAndTo(convertFrom *temperature, ConvertTo *temperature) 
 
 //Get User Input for String for fillNameConvertFromAndTo
 func getUserInputLower() (output string) {
-	fmt.Scanln(&output)
+	_, err := fmt.Scanln(&output)
+	if err != nil {
+		fmt.Println("Error Encountered: getUserInputLower() line 1")
+		log.Fatal(err)
+	}
 	output = strings.ToLower(output)
 	if output != "k" && output != "c" && output != "f" {
 		fmt.Println("Incorrect Information entered. Please Try again")
@@ -88,7 +93,11 @@ func getConvertFromValue(convertFrom *temperature) {
 
 //Get User Input for float64 for getConvertFromValue
 func getUserInputFloat64() (output float64) {
-	fmt.Scanln(&output)
+	_, err := fmt.Scanln(&output)
+	if err != nil {
+		fmt.Println("Error Encountered: getUserInputFloat64() line 1")
+		log.Fatal(err)
+	}
 	return output
 }
 
