@@ -53,7 +53,7 @@ func getUserInputLower() (output string) {
 		log.Fatal(err)
 	}
 	output = strings.ToLower(output)
-	if output != "k" && output != "c" && output != "f" {
+	if output != "k2" && output != "c" && output != "f" {
 		fmt.Println("Incorrect Information entered. Please Try again")
 		fmt.Print("New Entry: ")
 		output = getUserInputLower()
@@ -64,7 +64,7 @@ func getUserInputLower() (output string) {
 //switch statement for fillNameConvertFromAndTo
 func fillTemperatureName(userChoice string) (name string) {
 	switch userChoice {
-	case "k":
+	case "k2":
 		return kelvin
 	case "c":
 		return celsius
@@ -79,7 +79,7 @@ func fillTemperatureName(userChoice string) (name string) {
 //fmt.print statements for fillNameConvertFromAndTo
 func instructionsForFillNameConvertFromAndTo() {
 	fmt.Println("What do you want to convert From?")
-	fmt.Printf("For Kelvin enter k\nFor Celcius enter c\nFor Farenheit enter f\n")
+	fmt.Printf("For Kelvin enter k2\nFor Celcius enter c\nFor Farenheit enter f\n")
 	fmt.Print("User Choice: ")
 }
 
@@ -143,7 +143,7 @@ func convertFromTo(convertFrom *temperature, convertTo *temperature) {
 	} //Error Message for if the showConversion does not happen
 }
 
-//called in fromTo if convertFrom.name is equal to const kelvin
+//called in fromTo if convertFrom.name is equal to const k2
 func convertFromKelvin(convertFrom *temperature, convertTo *temperature) {
 	switch convertTo.name {
 	case kelvin:
