@@ -35,13 +35,13 @@ func fillNameConvertFromAndTo(convertFrom *temperature, ConvertTo *temperature) 
 	userChoice = getUserInputLower()
 	convertFrom.name = fillTemperatureName(userChoice)
 	if convertFrom.name == "ERROR" {
-		fmt.Println("Error occurred in func fillTemperatureName while filling out convertFrom.name")
+		fmt.Println("Error occurred in func temperatureName while filling out convertFrom.name")
 	} //Error catch for empty convertFrom.name
 	instructionsForFillNameConvertFromAndTo()
 	userChoice = getUserInputLower()
 	ConvertTo.name = fillTemperatureName(userChoice)
 	if convertFrom.name == "ERROR" {
-		fmt.Println("Error occurred in func fillTemperatureName while filling out convertTo.name")
+		fmt.Println("Error occurred in func temperatureName while filling out convertTo.name")
 	} //Error catch for empty convertTo.name
 }
 
@@ -49,7 +49,7 @@ func fillNameConvertFromAndTo(convertFrom *temperature, ConvertTo *temperature) 
 func getUserInputLower() (output string) {
 	_, err := fmt.Scanln(&output)
 	if err != nil {
-		fmt.Println("Error Encountered: getUserInputLower() line 1")
+		fmt.Println("Error Encountered: userInputLower() line 1")
 		log.Fatal(err)
 	}
 	output = strings.ToLower(output)
@@ -91,17 +91,17 @@ func getConvertFromValue(convertFrom *temperature) {
 	checkForLessThanAbsoluteZero(convertFrom)
 }
 
-//Get User Input for float64 for getConvertFromValue
+//Get User Input for float64 for convertFromValue
 func getUserInputFloat64() (output float64) {
 	_, err := fmt.Scanln(&output)
 	if err != nil {
-		fmt.Println("Error Encountered: getUserInputFloat64() line 1")
+		fmt.Println("Error Encountered: userInputFloat64() line 1")
 		log.Fatal(err)
 	}
 	return output
 }
 
-//Deals with less than absolute zero for getConvertFromValue
+//Deals with less than absolute zero for convertFromValue
 func checkForLessThanAbsoluteZero(convertFrom *temperature) {
 	const (
 		absoluteZeroK float64 = 0
@@ -140,10 +140,10 @@ func convertFromTo(convertFrom *temperature, convertTo *temperature) {
 	}
 	if convertTo.value == 0 {
 		fmt.Println("Error Occurred: No Conversion saved")
-	} //Error Message for if the conversion does not happen
+	} //Error Message for if the showConversion does not happen
 }
 
-//called in convertFromTo if convertFrom.name is equal to const kelvin
+//called in fromTo if convertFrom.name is equal to const kelvin
 func convertFromKelvin(convertFrom *temperature, convertTo *temperature) {
 	switch convertTo.name {
 	case kelvin:
@@ -155,7 +155,7 @@ func convertFromKelvin(convertFrom *temperature, convertTo *temperature) {
 	}
 }
 
-//called in convertFromTo if convertFrom.name is equal to const celsius
+//called in fromTo if convertFrom.name is equal to const celsius
 func convertFromCelsius(convertFrom *temperature, convertTo *temperature) {
 	switch convertTo.name {
 	case kelvin:
@@ -167,7 +167,7 @@ func convertFromCelsius(convertFrom *temperature, convertTo *temperature) {
 	}
 }
 
-//called in convertFromTo if convertFrom.name is equal to const fahrenheit
+//called in fromTo if convertFrom.name is equal to const fahrenheit
 func convertFromFahrenheit(convertFrom *temperature, convertTo *temperature) {
 	switch convertTo.name {
 	case kelvin:

@@ -54,39 +54,39 @@ func main() {
 	var convertingStruct temperatureM
 
 	fillNameConvertFrom(&convertingStruct)
-	getConvertFromValue(&convertingStruct)
-	convertFromTo(&convertingStruct)
-	displayConversion(&convertingStruct)
+	convertFromValue(&convertingStruct)
+	fromTo(&convertingStruct)
+	showConversion(&convertingStruct)
 }
 
 func fillNameConvertFrom(convertingStruct *temperatureM) {
 	var userChoice string
-	instructionsForFillNameConvertFromAndTo()
-	userChoice = getUserInputLower()
-	convertingStruct.convertFrom = fillTemperatureName(userChoice)
+	instructionsForFromAndTo()
+	userChoice = userInputLower()
+	convertingStruct.convertFrom = temperatureName(userChoice)
 	if convertingStruct.convertFrom == "ERROR" {
-		fmt.Println("Error occurred in func fillTemperatureName while filling out convertFrom.name")
+		fmt.Println("Error occurred in func temperatureName while filling out convertFrom.name")
 	} //Error catch for empty convertFrom.name
 }
 
 //Get User Input for String for fillNameConvertFromAndTo
-func getUserInputLower() (output string) {
+func userInputLower() (output string) {
 	_, err := fmt.Scanln(&output)
 	if err != nil {
-		fmt.Println("Error Encountered: getUserInputLower() line 1")
+		fmt.Println("Error Encountered: userInputLower() line 1")
 		log.Fatal(err)
 	}
 	output = strings.ToLower(output)
 	if output != "k" && output != "c" && output != "f" {
 		fmt.Println("Incorrect Information entered. Please Try again")
 		fmt.Print("New Entry: ")
-		output = getUserInputLower()
+		output = userInputLower()
 	} //Incorrect Data Handling
 	return output
 }
 
 //switch statement for fillNameConvertFromAndTo
-func fillTemperatureName(userChoice string) (name string) {
+func temperatureName(userChoice string) (name string) {
 	switch userChoice {
 	case "k":
 		return kelvinC
@@ -101,39 +101,39 @@ func fillTemperatureName(userChoice string) (name string) {
 }
 
 //fmt.print statements for fillNameConvertFromAndTo
-func instructionsForFillNameConvertFromAndTo() {
+func instructionsForFromAndTo() {
 	fmt.Println("What do you want to convert From?")
 	fmt.Printf("For Kelvin enter k\nFor Celcius enter c\nFor Farenheit enter f\n")
 	fmt.Print("User Choice: ")
 }
 
 //_________________________________________________________________________________________________________________
-func getConvertFromValue(convertingStruct *temperatureM) {
+func convertFromValue(convertingStruct *temperatureM) {
 	fmt.Printf("What is the temperature measured in %s?\n", convertingStruct.convertFrom)
 	fmt.Print("User Choice: ")
 	switch convertingStruct.convertFrom {
 	case kelvinC:
-		convertingStruct.kelvin = kelvinM(getUserInputFloat64())
+		convertingStruct.kelvin = kelvinM(userInputFloat64())
 	case celsiusC:
-		convertingStruct.celcius = celciusM(getUserInputFloat64())
+		convertingStruct.celcius = celciusM(userInputFloat64())
 	case fahrenheitC:
-		convertingStruct.fahrenheit = fahrenheitM(getUserInputFloat64())
+		convertingStruct.fahrenheit = fahrenheitM(userInputFloat64())
 	}
-	checkForLessThanAbsoluteZero(convertingStruct)
+	absoluteZero(convertingStruct)
 }
 
-//Get User Input for float64 for getConvertFromValue
-func getUserInputFloat64() (output float64) {
+//Get User Input for float64 for convertFromValue
+func userInputFloat64() (output float64) {
 	_, err := fmt.Scanln(&output)
 	if err != nil {
-		fmt.Println("Error Encountered: getUserInputFloat64() line 1")
+		fmt.Println("Error Encountered: userInputFloat64() line 1")
 		log.Fatal(err)
 	}
 	return output
 }
 
-//Deals with less than absolute zero for getConvertFromValue
-func checkForLessThanAbsoluteZero(convertingStruct *temperatureM) {
+//Deals with less than absolute zero for convertFromValue
+func absoluteZero(convertingStruct *temperatureM) {
 	const (
 		absoluteZeroK kelvinM     = 0
 		absoluteZeroC celciusM    = -273.15
@@ -144,23 +144,23 @@ func checkForLessThanAbsoluteZero(convertingStruct *temperatureM) {
 	case kelvinC:
 		if convertingStruct.kelvin < absoluteZeroK {
 			fmt.Println("Out of range Value given: Temp cannot be lower than absolute zero")
-			getConvertFromValue(convertingStruct)
+			convertFromValue(convertingStruct)
 		}
 	case celsiusC:
 		if convertingStruct.celcius < absoluteZeroC {
 			fmt.Println("Out of range Value given: Temp cannot be lower than absolute zero")
-			getConvertFromValue(convertingStruct)
+			convertFromValue(convertingStruct)
 		}
 	case fahrenheitC:
 		if convertingStruct.fahrenheit < absoluteZeroF {
 			fmt.Println("Out of range Value given: Temp cannot be lower than absolute zero")
-			getConvertFromValue(convertingStruct)
+			convertFromValue(convertingStruct)
 		}
 	}
 }
 
 //_________________________________________________________________________________________________________________
-func convertFromTo(convertingStruct *temperatureM) {
+func fromTo(convertingStruct *temperatureM) {
 	switch convertingStruct.convertFrom {
 	case kelvinC:
 		convertingStruct.celcius, convertingStruct.fahrenheit = convertingStruct.kelvin.celcius(), convertingStruct.kelvin.fahrenheit()
@@ -172,7 +172,7 @@ func convertFromTo(convertingStruct *temperatureM) {
 }
 
 //_________________________________________________________________________________________________________________
-func displayConversion(convertingStruct *temperatureM) {
+func showConversion(convertingStruct *temperatureM) {
 	switch convertingStruct.convertFrom {
 	case kelvinC:
 		fmt.Printf("%.2f K == %.2f C == %.2f F", convertingStruct.kelvin, convertingStruct.celcius, convertingStruct.fahrenheit)
