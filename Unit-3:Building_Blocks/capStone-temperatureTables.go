@@ -23,28 +23,37 @@ func main() {
 
 func drawTableCelToFah() {
 	//Draw Table Header
-	fmt.Println("===============")
-	fmt.Println("|  °C  |  °F  |")
-	fmt.Println("===============")
+	drawTableHeader("C", "F")
 	//Draw Table Body
-	for c := cel(-40.00); c <= 100.00; c += 5 {
-		f := c.Fahrenheit()
-		fmt.Printf("|%6.2f|%6.2f|\n", c, f)
-	}
+	drawTableEntry("C")
 	//Draw Table End
 	fmt.Println("===============")
 }
 
 func drawTableFahToCel() {
 	//Draw Table Header
-	fmt.Println("===============")
-	fmt.Println("|  °F  |  °C  |")
-	fmt.Println("===============")
+	drawTableHeader("F", "C")
 	//Draw Table Body
-	for f := fah(-40.00); f <= 100.00; f += 5 {
-		c := f.Celsius()
-		fmt.Printf("|%6.2f|%6.2f|\n", f, c)
-	}
+	drawTableEntry("F")
 	//Draw Table End
 	fmt.Println("===============")
+}
+
+func drawTableHeader(pos1 string, pos2 string) {
+	fmt.Println("===============")
+	fmt.Printf("|  °%s  |  °%s  |\n", pos1, pos2)
+	fmt.Println("===============")
+}
+
+func drawTableEntry(kind string) {
+	switch kind {
+	case "C":
+		for c := cel(-40.00); c <= 100.00; c += 5 {
+			fmt.Printf("|%6.2f|%6.2f|\n", c, c.Fahrenheit())
+		}
+	case "F":
+		for f := fah(-40.00); f <= 100.00; f += 5 {
+			fmt.Printf("|%6.2f|%6.2f|\n", f, f.Celsius())
+		}
+	}
 }
