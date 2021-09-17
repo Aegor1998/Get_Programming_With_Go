@@ -11,8 +11,8 @@ type universe [][]bool
 
 func (u universe) Show() {
 	fmt.Printf("|")
-	for _, b := range u {
-		switch b {
+	for i, b := range u {
+		switch b[i] {
 		case true:
 			fmt.Printf(" * |")
 		case false:
@@ -20,6 +20,12 @@ func (u universe) Show() {
 
 		}
 	}
+}
+
+func (u universe) Seed() {
+	/*use rand and time to populate universe
+	1/4 of the cells are to be counted as alive
+	*/
 }
 
 func main() {
