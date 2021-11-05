@@ -80,27 +80,24 @@ func (u universe) Neighbors(x, y int) (neighbors int) {
 		xCoordinate int
 		yCoordinate int
 	)
-	if u.Alive(x, y) != true {
-		return 0
-	}
-	for column := -1; column < 2; column++ {
+	for row := -1; row < 2; row++ {
 		switch {
-		case (x + column) > 14:
+		case (x + row) > 14:
 			xCoordinate = 0 //This should only wrap around by a max of 1
-		case (x + column) < 0:
+		case (x + row) < 0:
 			xCoordinate = 14 //This should only wrap around by a max of 1
 		default:
-			xCoordinate = x + column
+			xCoordinate = x + row
 
 		} //Keeps xCoordinate in range of 0 to 14
-		for row := -1; row < 2; row++ {
+		for column := -1; column < 2; column++ {
 			switch {
-			case (y + row) > 79:
+			case (y + column) > 79:
 				yCoordinate = 0 //This should only wrap around by a max of 1
-			case (y + row) < 0:
+			case (y + column) < 0:
 				yCoordinate = 79 //This should only wrap around by a max of 1
 			default:
-				yCoordinate = y + row
+				yCoordinate = y + column
 			} //Keeps yCoordinate in range of 0 to 79
 			if u.Alive(xCoordinate, yCoordinate) == true {
 				neighbors++
@@ -110,21 +107,60 @@ func (u universe) Neighbors(x, y int) (neighbors int) {
 	return neighbors
 } //Counts the living neighbors and itself.
 
+func (u universe) Next(x, y int) (living bool) {
+	var (
+		neighbor = u.Neighbors(x, y)
+	)
+	if u.Alive(x, y) == false {
+		switch neighbor {
+		case 3:
+			living = true
+		default:
+			living = false
+		}
+	} else {
+		switch neighbor {
+		case 3: //was 2
+			living = true
+		case 4: //was 3
+			living = true
+		default:
+			living = true
+		} //had to add +1 to these because neighbors will report itself if alive
+	}
+	return living
+}
+
 func main() {
 	var (
 		universeMap = make(map[int]universe) //1-d map containing a 2-d array
-		//generations = numberOfGenerations()
+		generations = numberOfGenerations()
+		currentUni  = universeMap[0]
 	)
-	universeMap[0] = universeMap[0].Seed()
-	universeMap[0].Show()
-	fmt.Printf("\nthe N count of 0,0: %v\n", universeMap[0].Neighbors(0, 0))
-	fmt.Printf("the N count of 5,18: %v\n", universeMap[0].Neighbors(5, 18))
-	fmt.Printf("the N count of 13,79: %v\n", universeMap[0].Neighbors(13, 79))
 
+	currentUni = universeMap[0].Seed()
+	currentUni.Show()
+
+	for i := 1; i < generations; i++ {
+		nextUni := universeMap[i]
+
+		nextGeneration(&currentUni, &nextUni)
+		fmt.Printf("\n")
+		nextUni.Show()
+		currentUni = nextUni
+	}
 }
 
-/*func numberOfGenerations() (gen int) {
+func numberOfGenerations() (gen int) {
 	fmt.Print("How many generations will this last: ")
 	fmt.Scanln(&gen)
 	return gen
-}*/
+}
+
+func nextGeneration(currentUni *universe, nextUni *universe) {
+	for row := 0; row < height; row++ {
+		for column := 0; column < width; column++ {
+			nextUni[row][column] = currentUni.Next(row, column)
+		}
+	}
+}
