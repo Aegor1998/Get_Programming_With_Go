@@ -19,73 +19,76 @@ import (
 )
 
 type coordinate struct {
-	Decimal    float32 `json:"decimal"`
+	Decimal    float64 `json:"decimal"`
 	DMS        string  `json:"dms"`
-	Degrees    int     `json:"degrees"`
-	Minutes    int     `json:"minutes"`
+	Degrees    float64 `json:"degrees"`
+	Minutes    float64 `json:"minutes"`
 	Seconds    float64 `json:"seconds"`
 	Hemisphere rune    `json:"hemisphere"`
 }
 
-func (coor coordinate) inputDeg() (deg int) {
+func (coor *coordinate) inputDeg() {
 	fmt.Println("Please input the Degrees")
-	_, err := fmt.Scanln(&deg)
+	_, err := fmt.Scanln(&coor.Degrees)
 	if err != nil {
 		fmt.Println("Error encountered in coordinate.inputDeg")
 		fmt.Println(err)
 	}
-	return deg
 }
 
-func (coor coordinate) inputMin() (min int) {
+func (coor *coordinate) inputMin() {
 	fmt.Println("Please input the Minutes")
-	_, err := fmt.Scanln(&min)
+	_, err := fmt.Scanln(&coor.Minutes)
 	if err != nil {
 		fmt.Println("Error encountered in coordinate.inputMin")
 		fmt.Println(err)
 	}
-	return min
+
 }
 
-func (coor coordinate) inputSec() (sec float64) {
+func (coor *coordinate) inputSec() {
 	fmt.Println("Please input the Seconds")
-	_, err := fmt.Scanln(&sec)
+	_, err := fmt.Scanln(&coor.Seconds)
 	if err != nil {
 		fmt.Println("Error encountered in coordinate.inputSec")
 		fmt.Println(err)
 	}
-	return sec
 }
 
-func (coor coordinate) inputhem() (hem rune) {
+func (coor *coordinate) inputhem() {
 	fmt.Println("Please input the Hemisphere")
-	_, err := fmt.Scanln(&hem)
+	var input string
+	_, err := fmt.Scanln(&input)
 	if err != nil {
 		fmt.Println("Error encountered in coordinate.inputhem")
 		fmt.Println(err)
 	}
-	unicode.ToUpper(hem)
-	return hem
+	coor.Hemisphere = rune(input[0])
+	unicode.ToUpper(coor.Hemisphere)
 }
 
-func (coor coordinate) generateDMS() (dms string) {
-	dms = string(coor.Degrees) + "°"
-	dms += string(coor.Minutes) + "'"
-	dms += strconv.FormatFloat(coor.Seconds, 'E', -1, 32)
-	dms += string(coor.Hemisphere)
+func (coor *coordinate) generateDMS() {
+	coor.DMS = strconv.FormatFloat(coor.Degrees, 'f', 0, 32) + "° " + strconv.FormatFloat(coor.Minutes, 'f', 0, 32) + "' " + strconv.FormatFloat(coor.Seconds, 'f', 2, 32) + string(coor.Hemisphere)
+}
 
-	return dms
+func (coor *coordinate) generateDD() {
+	coor.Decimal = coor.Degrees + ((coor.Minutes / 60) + (coor.Seconds / 3600))
+	if coor.Hemisphere == 'S' {
+		coor.Decimal = coor.Decimal * (-1)
+	}
 }
 
 func main() {
 	var location coordinate
 
-	location.Degrees = location.inputDeg()
-	location.Minutes = location.inputMin()
-	location.Seconds = location.inputSec()
-	location.Hemisphere = location.inputhem()
+	location.inputDeg()
+	location.inputMin()
+	location.inputSec()
+	location.inputhem()
 
-	location.DMS = location.generateDMS()
+	location.generateDMS()
+	location.generateDD()
 
 	fmt.Println(location.DMS)
+	fmt.Println(location.Decimal)
 }
